@@ -72,6 +72,7 @@ def agent_chat(user_input: str) -> str:
         if action_name in TOOL_REGISTRY:
             tool_result = TOOL_REGISTRY[action_name](**action_args)
             messages.append({"role": "tool", "content": f"{action_name} result: {tool_result}"})
+            messages = trim_messages(messages, MAX_CONTEXT_TOKENS)
         
     save_history(messages)
     return "抱歉，未能在步骤限制内给出答案。"
